@@ -2,6 +2,7 @@ using GerenciadorDeTarefasComAutenticacaoAPI.Data;
 using GerenciadorDeTarefasComAutenticacaoAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,10 @@ builder.Services.AddDbContext<UsuarioDbContext>(opts =>
     opts.UseMySql(connectionString,
         ServerVersion.AutoDetect(connectionString));
 });
+
+builder.Services.AddDbContext<TarefasDbContext>(opts =>
+    opts.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
+);
 
 builder.Services.AddIdentity<Usuario, IdentityRole>()
     .AddEntityFrameworkStores<UsuarioDbContext>()
