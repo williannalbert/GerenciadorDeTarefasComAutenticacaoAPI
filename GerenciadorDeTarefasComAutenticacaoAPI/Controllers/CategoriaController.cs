@@ -25,7 +25,7 @@ namespace GerenciadorDeTarefasComAutenticacaoAPI.Controllers
         public void AdicionarCategoria([FromBody] CreateCategoriaDTO categoriaDTO)
         {
             Categoria categoria = _mapper.Map<Categoria>(categoriaDTO);
-            _context.Cinemas.Add(categoria);
+            _context.Categoria.Add(categoria);
             _context.SaveChanges();
             //return CreatedAtAction(nameof(RetornaCinemasPorId), new { Id = categoria.Id }, categoriaDTO);
         }
