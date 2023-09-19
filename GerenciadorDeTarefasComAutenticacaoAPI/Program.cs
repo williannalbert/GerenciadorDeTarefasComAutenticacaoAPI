@@ -10,19 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 var connectionString = builder.Configuration["ConnectionStrings:UsuarioConnection"];
-builder.Services.AddDbContext<UsuarioDbContext>(opts =>
+/*builder.Services.AddDbContext<UsuarioDbContext>(opts =>
 {
     opts.UseMySql(connectionString,
         ServerVersion.AutoDetect(connectionString));
-});
+});*/
 
 builder.Services.AddDbContext<TarefasDbContext>(opts =>
     opts.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
 );
-
-builder.Services.AddIdentity<Usuario, IdentityRole>()
-    .AddEntityFrameworkStores<UsuarioDbContext>()
-    .AddDefaultTokenProviders();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

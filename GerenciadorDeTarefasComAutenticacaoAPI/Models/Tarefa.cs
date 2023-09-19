@@ -15,6 +15,7 @@ namespace GerenciadorDeTarefasComAutenticacaoAPI.Models
         [Required(ErrorMessage = "Preenchimento obrigatório do prazo")]
         public DateTime Prazo { get; set; }
         public bool Concluido { get; set; }
-        public virtual ICollection<Categoria> Categoria { get; set; }
+        public int CategoriaId { get; set; }
+        public virtual Categoria Categoria { get; set; }
     }
 }

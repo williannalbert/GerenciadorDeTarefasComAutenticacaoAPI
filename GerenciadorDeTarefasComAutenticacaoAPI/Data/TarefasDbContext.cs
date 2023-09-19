@@ -13,9 +13,9 @@ namespace GerenciadorDeTarefasComAutenticacaoAPI.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Tarefa>()
-                .HasMany(t => t.Categoria)
-                .WithOne(c => c.Tarefa)
-                .HasForeignKey(c => c.Tarefa.Id);
+                .HasOne(t => t.Categoria)
+                .WithMany(c => c.Tarefas)
+                .HasForeignKey(t => t.CategoriaId);
         }
     }
 }
