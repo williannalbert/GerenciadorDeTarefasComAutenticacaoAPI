@@ -22,22 +22,51 @@ namespace GerenciadorDeTarefasComAutenticacaoAPI.Controllers
         }
 
         [HttpPost]
-        public void AdicionarCategoria([FromBody] CreateCategoriaDTO categoriaDTO)
+        public IActionResult AdicionarCategoria([FromBody] CreateCategoriaDTO categoriaDTO)
         {
             Categoria categoria = _mapper.Map<Categoria>(categoriaDTO);
             _context.Categoria.Add(categoria);
             _context.SaveChanges();
-            //return CreatedAtAction(nameof(RetornaCinemasPorId), new { Id = categoria.Id }, categoriaDTO);
+            return CreatedAtAction(nameof(RetornaCategoria), new { Id = categoria.Id }, categoriaDTO);
         }
         [HttpGet]
-        public string RetornaCategorias()
+        public IEnumerable<ReadCategoriaDTO> RetornaCategorias([FromQuery] int skip = 0, [FromQuery] int take = 10)
         {
-            return "teste ok";
+            return _mapper.Map<List<ReadCategoriaDTO>>(_context.Categoria
+                .Skip(skip)
+                .Take(take)
+                .ToList());
         }
         [HttpGet("{id}")]
-        public string RetornaCategoria(int id) 
+        public IActionResult RetornaCategoria(int id) 
         {
-            return id.ToString();
+            Categoria categoria = _context.Categoria.FirstOrDefault(categoria => categoria.Id == id);
+            if(categoria == null)
+                return NotFound();
+
+            ReadCategoriaDTO readCategoriaDTO = _mapper.Map<ReadCategoriaDTO>(categoria);
+
+            return Ok(readCategoriaDTO);
+        }
+        [HttpPut("{id}")]
+        public IActionResult AtualizarCategoriaPut(int id, [FromBody] UpdateCategoriaDTO categoriaDTO)
+        {
+            Categoria categoria = _context.Categoria.FirstOrDefault(filme => filme.Id == id);
+            if (categoria == null) return NotFound();
+
+            _mapper.Map(categoriaDTO, categoria);
+            _context.SaveChanges();
+            return NoContent();
+        }
+        [HttpDelete("{id}")]
+        public IActionResult DeletarCategoria(int id)
+        {
+            Categoria categoria = _context.Categoria.FirstOrDefault(categoria => categoria.Id == id);
+            if (categoria == null) return NotFound();
+
+            _context.Remove(categoria);
+            _context.SaveChanges();
+            return NoContent();
         }
     }
 }
