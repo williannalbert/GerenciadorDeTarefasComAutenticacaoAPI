@@ -1,4 +1,4 @@
-﻿using GerenciadorDeTarefasComAutenticacaoAPI.Models;
+﻿    using GerenciadorDeTarefasComAutenticacaoAPI.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace GerenciadorDeTarefasComAutenticacaoAPI.Data.DTOs

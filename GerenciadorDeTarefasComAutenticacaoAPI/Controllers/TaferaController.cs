@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GerenciadorDeTarefasComAutenticacaoAPI.Controllers
 {
-    public class TaferaController
+    [ApiController]
+    [Route("[controller]")]
+    public class TaferaController : ControllerBase
     {
         private TarefasDbContext _context;
         private IMapper _mapper;
@@ -17,22 +19,36 @@ namespace GerenciadorDeTarefasComAutenticacaoAPI.Controllers
             _context = context;
         }
         [HttpPost]
-        public void AdicionarTarefa([FromBody] CreateTarefaDTO tarefaDTO)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public IActionResult AdicionarTarefa([FromBody] CreateTarefaDTO tarefaDTO)
         {
+
+            Categoria categoria = _context.Categoria.FirstOrDefault(categoria => categoria.Id == tarefaDTO.CategoriaId);
+            if(categoria == null)
+                return NotFound();
+
             Tarefa tarefa = _mapper.Map<Tarefa>(tarefaDTO);
             _context.Tarefa.Add(tarefa);
             _context.SaveChanges();
-            //return CreatedAtAction(nameof(RetornaCinemasPorId), new { Id = categoria.Id }, categoriaDTO);
+            return CreatedAtAction(nameof(RetornaTarefa), new { Id = tarefa.Id }, tarefaDTO);
         }
         [HttpGet]
-        public string RetornaTarefa()
+        public IEnumerable<ReadTarefaDTO> RetornaTarefa([FromQuery] int skip = 0, [FromQuery] int take = 10)
         {
-            return "teste ok";
+            return _mapper.Map<List<ReadTarefaDTO>>(_context.Tarefa
+                .Skip(skip)
+                .Take(take)
+                .ToList());
         }
         [HttpGet("{id}")]
-        public string RetornaTarefa(int id)
+        public IActionResult RetornaTarefa(int id)
         {
-            return id.ToString();
+            Tarefa tarefa = _context.Tarefa.FirstOrDefault(tarefa => tarefa.Id == id);
+            if(tarefa == null)
+                return NotFound();
+
+            ReadTarefaDTO readTarefaDTO = _mapper.Map<ReadTarefaDTO>(tarefa);
+            return Ok(readTarefaDTO);
         }
     }
 }

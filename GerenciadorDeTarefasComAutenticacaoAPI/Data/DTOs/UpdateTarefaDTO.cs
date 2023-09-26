@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using GerenciadorDeTarefasComAutenticacaoAPI.Models;
+using System.ComponentModel.DataAnnotations;
 
-namespace GerenciadorDeTarefasComAutenticacaoAPI.Models
+namespace GerenciadorDeTarefasComAutenticacaoAPI.Data.DTOs
 {
-    public class Tarefa
+    public class UpdateTarefaDTO
     {
-        [Key]
-        public int Id { get; set; }
         [Required(ErrorMessage = "Preenchimento obrigatório do nome")]
         public string Nome { get; set; }
         [Required(ErrorMessage = "Preenchimento obrigatório de descrição")]

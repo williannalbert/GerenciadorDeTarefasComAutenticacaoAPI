@@ -3,18 +3,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GerenciadorDeTarefasComAutenticacaoAPI.Data.DTOs
 {
-    public class CreateTarefaDTO
+    public class ReadTarefaDTO
     {
-        [Required(ErrorMessage = "Preenchimento obrigatório do nome")]
+        public int Id { get; set; }
         public string Nome { get; set; }
-        [Required(ErrorMessage = "Preenchimento obrigatório de descrição")]
         public string Descricao { get; set; }
-        [Required(ErrorMessage = "Preenchimento obrigatório da data de criação")]
         public DateTime DataCriacao { get; set; }
-        [Required(ErrorMessage = "Preenchimento obrigatório do prazo")]
         public DateTime Prazo { get; set; }
         public bool Concluido { get; set; }
-        [Required(ErrorMessage = "Preenchimento obrigatório de categoria")]
         public int CategoriaId { get; set; }
+        public virtual Categoria Categoria { get; set; }
     }
 }

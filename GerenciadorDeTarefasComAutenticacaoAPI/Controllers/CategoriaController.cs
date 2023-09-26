@@ -22,6 +22,7 @@ namespace GerenciadorDeTarefasComAutenticacaoAPI.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public IActionResult AdicionarCategoria([FromBody] CreateCategoriaDTO categoriaDTO)
         {
             Categoria categoria = _mapper.Map<Categoria>(categoriaDTO);
