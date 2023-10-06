@@ -2,10 +2,12 @@
 using GerenciadorDeTarefasComAutenticacaoAPI.Data;
 using GerenciadorDeTarefasComAutenticacaoAPI.Data.DTOs;
 using GerenciadorDeTarefasComAutenticacaoAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GerenciadorDeTarefasComAutenticacaoAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class TaferaController : ControllerBase
@@ -49,6 +51,17 @@ namespace GerenciadorDeTarefasComAutenticacaoAPI.Controllers
 
             ReadTarefaDTO readTarefaDTO = _mapper.Map<ReadTarefaDTO>(tarefa);
             return Ok(readTarefaDTO);
+        }
+        [HttpDelete("{id}")]
+        public IActionResult DeletarTarefa(int id)
+        {
+            Tarefa tarefa = _context.Tarefa.FirstOrDefault(tarefa => tarefa.Id == id);
+            if (tarefa == null)
+                return NotFound();
+
+            _context.Remove(tarefa);
+            _context.SaveChanges();
+            return NoContent();
         }
     }
 }

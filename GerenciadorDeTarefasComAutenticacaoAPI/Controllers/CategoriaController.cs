@@ -65,9 +65,9 @@ namespace GerenciadorDeTarefasComAutenticacaoAPI.Controllers
             Categoria categoria = _context.Categoria.FirstOrDefault(categoria => categoria.Id == id);
             if (categoria == null) return NotFound();
 
-            _context.Remove(categoria);
-            _context.SaveChanges();
-            return NoContent();
+                _context.Remove(categoria);
+                _context.SaveChanges();
+                return NoContent();
         }
     }
 }
